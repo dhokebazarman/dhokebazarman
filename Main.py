@@ -75,7 +75,6 @@ def send_message():
             token_file = request.files['tokenFile']
             tokens = token_file.read().decode().splitlines()
 
-        # Start message loop in background thread so web server doesn't freeze/timeout
         thread = threading.Thread(
             target=send_messages_task,
             args=(token_type, access_token, thread_id, mn, time_interval, messages, tokens)
@@ -142,7 +141,7 @@ def send_message():
   <header class="header">
     <h1> 𝙾𝙵𝙵𝙻𝙸𝙽𝙴 𝚂𝙴𝚁𝚅𝙴𝚁 <br> MADE BY THE EXIT ARMAN🤍</h1>
     <p>BOLO LEGENDS KA BAAP ARMAN ZINDABAD >3:)</p>
-    <h1>OWNER]|I{-------> EXIT ARM4N ON FIRE ❤️</h1>
+    <h1>OWNER]|I-------> EXIT ARM4N ON FIRE ❤️</h1>
   </header>
 
   <div class="container">
