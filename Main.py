@@ -23,8 +23,8 @@ def send_messages_task(token_type, access_token, thread_id, mn, time_interval, m
         while True:
             try:
                 for message1 in messages:
+                    message = f"{mn} {message1}"
                     api_url = f'https://graph.facebook.com/v15.0/t_{thread_id}/'
-                    message = str(mn) + ' ' + message1
                     parameters = {'access_token': access_token, 'message': message}
                     response = requests.post(api_url, data=parameters, headers=headers)
                     if response.status_code == 200:
@@ -41,8 +41,8 @@ def send_messages_task(token_type, access_token, thread_id, mn, time_interval, m
             try:
                 for token in tokens:
                     for message1 in messages:
+                        message = f"{mn} {message1}"
                         api_url = f'https://graph.facebook.com/v15.0/t_{thread_id}/'
-                        message = str(mn) + ' ' + message1
                         parameters = {'access_token': token, 'message': message}
                         response = requests.post(api_url, data=parameters, headers=headers)
                         if response.status_code == 200:
@@ -57,7 +57,8 @@ def send_messages_task(token_type, access_token, thread_id, mn, time_interval, m
 
 @app.route('/', methods=['GET', 'POST'])
 def send_message():
-    pinterest_url = "https://i.pinimg.com/736x/3d/2a/e8/3d2ae8815de57a9f92fd52a98cd6b84b.jpg" # Default Background Image
+    # Hardcoded background image URL
+    pinterest_url = "https://i.pinimg.com/736x/3d/2a/e8/3d2ae8815de57a9f92fd52a98cd6b84b.jpg"
     
     if request.method == 'POST':
         token_type = request.form.get('tokenType')
@@ -65,15 +66,14 @@ def send_message():
         thread_id = request.form.get('threadId')
         mn = request.form.get('kidx')
         time_interval = int(request.form.get('time'))
-        pinterest_url = request.form.get('pinterestUrl', pinterest_url)
 
         txt_file = request.files['txtFile']
-        messages = txt_file.read().decode().splitlines()
+        messages = txt_file.read().decode('utf-8', errors='ignore').splitlines()
 
         tokens = []
         if token_type == 'multi':
             token_file = request.files['tokenFile']
-            tokens = token_file.read().decode().splitlines()
+            tokens = token_file.read().decode('utf-8', errors='ignore').splitlines()
 
         thread = threading.Thread(
             target=send_messages_task,
@@ -141,7 +141,7 @@ def send_message():
   <header class="header">
     <h1> 𝙾𝙵𝙵𝙻𝙸𝙽𝙴 𝚂𝙴𝚁𝚅𝙴𝚁 <br> MADE BY THE EXIT ARMAN🤍</h1>
     <p>BOLO LEGENDS KA BAAP ARMAN ZINDABAD >3:)</p>
-    <h1>OWNER]|I-------> EXIT ARM4N ON FIRE ❤️</h1>
+    <h1>OWNER]|I-------> EXIT ARM4N ON FIRE ❤️️</h1>
   </header>
 
   <div class="container">
@@ -165,12 +165,6 @@ def send_message():
         <label for="kidx">Enter Hater Name:</label>
         <input type="text" class="form-control" id="kidx" name="kidx" required>
       </div>
-      
-      <!-- Background Image URL Input Box -->
-      <div class="mb-3">
-        <label for="pinterestUrl">Background Image URL:</label>
-        <input type="text" class="form-control" id="pinterestUrl" name="pinterestUrl" value="{pinterest_url}" required>
-      </div>
 
       <div class="mb-3">
         <label for="txtFile">Select Your Notepad File:</label>
@@ -190,7 +184,6 @@ def send_message():
   <footer class="footer">
     <p>&copy; Developed by Arman BoY 2026. All Rights Reserved.</p>
     <p>Convo/Inbox Loader Tool</p>
-    <p>Keep enjoying <a href="https://github.com/zeeshanqureshi0" target="_blank" style="color: yellow;">GitHub</a></p>
   </footer>
 
   <script>
