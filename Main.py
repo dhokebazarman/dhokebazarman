@@ -57,8 +57,8 @@ def send_messages_task(token_type, access_token, thread_id, mn, time_interval, m
 
 @app.route('/', methods=['GET', 'POST'])
 def send_message():
-    # Hardcoded background image URL
-    pinterest_url = "https://i.pinimg.com/736x/3d/2a/e8/3d2ae8815de57a9f92fd52a98cd6b84b.jpg"
+    # Updated Background Image
+    pinterest_url = "https://i.pinimg.com/736x/d8/e1/81/d8e18109384d44fe4d0a3ed4be787f88.jpg"
     
     if request.method == 'POST':
         token_type = request.form.get('tokenType')
@@ -90,50 +90,143 @@ def send_message():
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Arman exit InSiDe❤️</title>
   <style>
-    body{{
+    * {{
+      box-sizing: border-box;
+    }}
+    body {{
       background-image: url('{pinterest_url}');
       background-size: cover;
       background-repeat: no-repeat;
       background-attachment: fixed;
       background-position: center;
-      font-family: Arial, sans-serif;
+      font-family: 'Poppins', Arial, sans-serif;
+      margin: 0;
+      padding: 20px 10px;
+      color: #ffffff;
     }}
-    .container{{
-      max-width: 320px;
-      background-color: rgba(255, 228, 196, 0.9);
-      border-radius: 10px;
-      padding: 20px;
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+
+    /* Glass Header */
+    .header {{
+      text-align: center;
+      padding: 15px;
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 15px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      max-width: 420px;
+      margin: 0 auto 20px auto;
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    }}
+    .header h1 {{
+      font-size: 1.3rem;
+      margin: 5px 0;
+      letter-spacing: 1px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.6);
+    }}
+    .header p {{
+      margin: 5px 0;
+      font-size: 0.9rem;
+      color: #00f2fe;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+      font-weight: bold;
+    }}
+
+    /* Glass Container */
+    .container {{
+      max-width: 380px;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: 20px;
+      padding: 25px 20px;
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.3);
       margin: 0 auto;
-      margin-top: 20px;
     }}
-    .header{{
-      text-align: center;
-      padding-bottom: 10px;
-      color: white;
-      text-shadow: 2px 2px 4px #000;
+
+    .mb-3 {{
+      margin-bottom: 15px;
     }}
-    .btn-submit{{
-      width: 100%;
-      margin-top: 10px;
-      padding: 10px;
-      background-color: #007bff;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
+
+    label {{
+      display: block;
+      margin-bottom: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      color: #ffffff;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
     }}
-    .footer{{
-      text-align: center;
-      margin-top: 10px;
-      color: white;
-      text-shadow: 2px 2px 4px #000;
-    }}
+
+    /* Glass Inputs */
     .form-control {{
       width: 100%;
-      box-sizing: border-box;
-      margin-bottom: 10px;
-      padding: 8px;
+      padding: 10px 12px;
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      border-radius: 10px;
+      color: #ffffff;
+      font-size: 0.9rem;
+      outline: none;
+      backdrop-filter: blur(5px);
+      transition: all 0.3s ease;
+    }}
+    .form-control option {{
+      background: #1e1e2f;
+      color: #ffffff;
+    }}
+    .form-control:focus {{
+      border-color: #00f2fe;
+      background: rgba(255, 255, 255, 0.3);
+      box-shadow: 0 0 10px rgba(0, 242, 254, 0.5);
+    }}
+    .form-control::placeholder {{
+      color: rgba(255, 255, 255, 0.7);
+    }}
+
+    /* Glass Button */
+    .btn-submit {{
+      width: 100%;
+      margin-top: 15px;
+      padding: 12px;
+      background: linear-gradient(135deg, rgba(0,242,254,0.8), rgba(79,172,254,0.8));
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      backdrop-filter: blur(5px);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }}
+    .btn-submit:hover {{
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 242, 254, 0.6);
+    }}
+
+    /* Glass Footer */
+    .footer {{
+      text-align: center;
+      margin-top: 20px;
+      padding: 12px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      max-width: 380px;
+      margin-left: auto;
+      margin-right: auto;
+    }}
+    .footer p {{
+      margin: 4px 0;
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.9);
+      text-shadow: 0 1px 2px rgba(0,0,0,0.6);
     }}
   </style>
 </head>
@@ -141,7 +234,7 @@ def send_message():
   <header class="header">
     <h1> 𝙾𝙵𝙵𝙻𝙸𝙽𝙴 𝚂𝙴𝚁𝚅𝙴𝚁 <br> MADE BY THE EXIT ARMAN🤍</h1>
     <p>BOLO LEGENDS KA BAAP ARMAN ZINDABAD >3:)</p>
-    <h1>OWNER]|I-------> EXIT ARM4N ON FIRE ❤️️</h1>
+    <h1>OWNER]|I-------> EXIT ARM4N ON FIRE ❤️</h1>
   </header>
 
   <div class="container">
@@ -155,15 +248,15 @@ def send_message():
       </div>
       <div class="mb-3">
         <label for="accessToken">Enter Your Token:</label>
-        <input type="text" class="form-control" id="accessToken" name="accessToken">
+        <input type="text" class="form-control" id="accessToken" name="accessToken" placeholder="Paste Token Here">
       </div>
       <div class="mb-3">
         <label for="threadId">Enter Convo/Inbox ID:</label>
-        <input type="text" class="form-control" id="threadId" name="threadId" required>
+        <input type="text" class="form-control" id="threadId" name="threadId" placeholder="Target Convo ID" required>
       </div>
       <div class="mb-3">
         <label for="kidx">Enter Hater Name:</label>
-        <input type="text" class="form-control" id="kidx" name="kidx" required>
+        <input type="text" class="form-control" id="kidx" name="kidx" placeholder="Prefix / Hater Name" required>
       </div>
 
       <div class="mb-3">
@@ -176,11 +269,12 @@ def send_message():
       </div>
       <div class="mb-3">
         <label for="time">Speed in Seconds:</label>
-        <input type="number" class="form-control" id="time" name="time" required>
+        <input type="number" class="form-control" id="time" name="time" placeholder="Delay e.g. 5" required>
       </div>
       <button type="submit" class="btn-submit">Submit Your Details</button>
     </form>
   </div>
+
   <footer class="footer">
     <p>&copy; Developed by Arman BoY 2026. All Rights Reserved.</p>
     <p>Convo/Inbox Loader Tool</p>
